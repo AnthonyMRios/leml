@@ -38,13 +38,11 @@ class LEMLp:
 
     def fit_H(self, train_data, train_labels):
         X = pmultiply(train_data, np.asfortranarray(self.W))
-        #assert np.all(pmultiply(train_data, np.asfortranarray(self.W)) == train_data.dot(self.W))
         X2 = X.T.dot(X)
         eye_reg_param = np.eye(X2.shape[0])*self.reg_param
         X2 = X2 + eye_reg_param
         inv = np.linalg.inv(X2)
         missing = train_labels.T.dot(X)
-        #missing = pmultiply(train_labels.T, np.array(X, order='F'))
         for j in range(train_labels.shape[1]):
             self.H[j,:] =  inv.dot(missing[j,:].flatten()).flatten()
 
@@ -53,24 +51,16 @@ class LEMLp:
             return A.flatten('F')
 
         def dloss(w, X, Y, H, reg_param):
-            #A = X.dot(W)
             A = pmultiply(X, np.asfortranarray(self.W))
-            #assert np.all(pmultiply(X, np.asfortranarray(self.W)) == X.dot(self.W))
             B = Y.dot(H)
             M = H.T.dot(H)
-            #return vec(X.T.dot(A.dot(M)-B)) + reg_param*w
-            #print 'a1'
-            #print X.getformat(), X.T.getformat()
-            #assert np.all(pmultiply(X.T.tocsc(), np.asfortranarray(A.dot(M)-B)) == X.T.dot(A.dot(M)-B))
             return vec(pmultiply(X.T.tocsc(), np.asfortranarray(A.dot(M)-B))) + reg_param*w
 
         self.M = np.dot(self.H.T, self.H)
         def Hs(s, X, reg_param):
             S = s.reshape((X.shape[1],self.H.shape[1]), order='F')
             A = pmultiply(X, np.asfortranarray(S))
-            #assert np.all(pmultiply(X, np.asfortranarray(S)) == X.dot(S))
             
-            #return vec(X.T.dot(A.dot(self.M))) + reg_param*s
             return vec(pmultiply(X.T.tocsc(), np.asfortranarray(A.dot(self.M)))) + reg_param*s
 
         wt = vec(self.W)
