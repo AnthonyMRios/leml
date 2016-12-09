@@ -4,7 +4,7 @@ Python implementation of the LEML:
 
 Yu, Hsiang-Fu, et al. "[Large-scale Multi-label Learning with Missing Labels.](http://www.jmlr.org/proceedings/papers/v32/yu14.pdf)" ICML. 2014.
 
-**Notes**: This version implements LEML with the **squared loss** and **full** labels.
+**Notes**: This version implements LEML with the **squared loss** and assuming **full** labels.
 
 # How to Install
 
