@@ -1,4 +1,4 @@
-# leml
+# Python Implementation of LEML
 
 Python implementation of the LEML: 
 
