@@ -20,7 +20,7 @@ To install the main package:
     python setup.py install
 
 To use the parallel version you must install the extra library in the lib directory. This package was taken from
-(https://gist.github.com/rmcgibbo/6019670)[https://gist.github.com/rmcgibbo/6019670] and requires OpenMP.
+[https://gist.github.com/rmcgibbo/6019670](https://gist.github.com/rmcgibbo/6019670) and requires OpenMP.
 
     cd lib/parallel
     python setup.py install
