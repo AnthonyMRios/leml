@@ -25,6 +25,6 @@ To use the parallel version you must install the extra library in the lib direct
     cd lib/parallel
     python setup.py install
 
-How to Use
-----------
+# How to Use
+
 See examples in example directory.
