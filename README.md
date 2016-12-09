@@ -1,5 +1,4 @@
-leml
-=========
+# leml
 
 Python implementation of the LEML: 
 
@@ -7,8 +6,7 @@ Yu, Hsiang-Fu, et al. "[Large-scale Multi-label Learning with Missing Labels.](h
 
 *Notes*: This version implements LEML with the *squared loss* and *full* labels.
 
-How to Install
---------------
+# How to Install
 
 Packages:
 - Python 2.7
@@ -17,13 +15,13 @@ Packages:
 - Cython
 - OpenMP [optional]
 
->>> python setup.py install
+    python setup.py install
 
-To use the parallel version you must install the extra library in the lib directory.
+To use the parallel version you must install the extra library in the lib directory. This package was taken from
+(https://gist.github.com/rmcgibbo/6019670)[https://gist.github.com/rmcgibbo/6019670] and requires OpenMP.
 
->>> cd lib/parallel
-
->>> python setup.py install
+    cd lib/parallel
+    python setup.py install
 
 How to Use
 ----------
