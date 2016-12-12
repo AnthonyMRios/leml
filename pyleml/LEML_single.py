@@ -1,12 +1,5 @@
 import numpy as np
-from sklearn.externals import joblib
-import sys
 import scipy.sparse as scipy_sp
-from time import time
-from sklearn.linear_model import Ridge, LogisticRegression
-from sklearn.metrics import precision_score 
-from sklearn.grid_search import GridSearchCV
-from sklearn.multiclass import OneVsRestClassifier
 
 class LEMLs:
     def __init__(self, num_factors = 128, num_iterations = 25, reg_param = 1.,
