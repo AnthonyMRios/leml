@@ -28,3 +28,8 @@ To use the parallel version you must install the extra library in the lib direct
 # How to Use
 
 See examples in example directory.
+
+# TODO
+
+- Add ability to model missing label
+- Add log loss function
