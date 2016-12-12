@@ -1,7 +1,7 @@
 import sys
 
 import numpy as np
-import scipy.sparse as sparse
+import scipy.sparse as scipy_sp
 
 from _psparse import pmultiply
 
@@ -16,10 +16,10 @@ class LEMLp:
         self.verbose = verbose
 
     def fit(self, train_data, train_labels):
-        if not isinstance(train_data,sparse.csc_matrix):
+        if not isinstance(train_data,scipy_sp.csc_matrix):
             print 'Scipy sparse CSC Matricies (X, Y) must be used for Parallel LEML' 
             sys.exit(0)
-        if not isinstance(train_labels,sparse.csc_matrix):
+        if not isinstance(train_labels,scipy_sp.csc_matrix):
             print 'Scipy sparse CSC Matricies (X, Y) must be used for Parallel LEML' 
             sys.exit(0)
         
