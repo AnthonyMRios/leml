@@ -47,7 +47,6 @@ class LEMLs:
             return vec(X.T.dot(A.dot(M)-B)) + reg_param*w
 
         self.M = np.dot(self.H.T, self.H)
-        @profile
         def Hs(s, X, reg_param):
             S = s.reshape((X.shape[1],self.H.shape[1]), order='F')
             A = X.dot(S)

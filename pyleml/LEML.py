@@ -17,7 +17,7 @@ class LEML:
     @staticmethod
     def get_instance(backend='single', **extra_args):
         if backend == 'parallel':
-            from LEML_single_fast import LEMLsf
+            from LEML_parallel import LEMLsf
             return LEMLsf(**extra_args)
         elif backend == 'single':
             from LEML_single import LEMLs

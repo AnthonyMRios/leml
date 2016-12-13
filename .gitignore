@@ -2,4 +2,4 @@
 /dists/
 /dist/
 /*.egg-info
-./build
+/build

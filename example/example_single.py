@@ -22,7 +22,7 @@ def main():
     sys.stdout.flush()
     #for l in [1e-3, 1e-2, 1e-1, 1., 10]:
     t0 = time()
-    leml = LEML.get_instance('single', num_factors=200, num_iterations=5, reg_param=1., verbose=True)
+    leml = LEML.get_instance('single', num_factors=120, num_iterations=20, reg_param=1., verbose=True)
     leml.fit(X, labels)
     print 'Train time', time() - t0, 'seconds'
     sys.stdout.flush()

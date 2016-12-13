@@ -19,7 +19,7 @@ def main():
     print 'Training LEML'
     sys.stdout.flush()
     t0 = time()
-    leml = LEML.get_instance('parallel', num_factors=200, num_iterations=25, reg_param=1., verbose=True)
+    leml = LEML.get_instance('parallel', num_factors=64, num_iterations=25, reg_param=1., verbose=True)
     leml.fit(X.tocsc(), labels.tocsc().astype('float'))
     print 'Train time', time() - t0, 'seconds'
     sys.stdout.flush()
