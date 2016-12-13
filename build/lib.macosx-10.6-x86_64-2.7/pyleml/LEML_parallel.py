@@ -1,9 +1,11 @@
+import sys
+
 import numpy as np
 import scipy.sparse as scipy_sp
 
-from mul_sparse import mul_sparse, mul_sparse_row
+from _psparse import pmultiply
 
-class LEMLsf:
+class LEMLp:
     def __init__(self, num_factors = 128, num_iterations = 25, reg_param = 1.,
                  stopping_criteria = 1e-3, cg_max_iter = 25, cg_gtol = 1e-3, verbose = False):
         self.num_factors = num_factors
@@ -14,8 +16,15 @@ class LEMLsf:
         self.verbose = verbose
 
     def fit(self, train_data, train_labels):
-        self.W = np.random.random((train_data.shape[1], self.num_factors))
-        self.H = np.random.random((train_labels.shape[1], self.num_factors))
+        if not isinstance(train_data,scipy_sp.csc_matrix):
+            print 'Scipy sparse CSC Matricies (X, Y) must be used for Parallel LEML' 
+            sys.exit(0)
+        if not isinstance(train_labels,scipy_sp.csc_matrix):
+            print 'Scipy sparse CSC Matricies (X, Y) must be used for Parallel LEML' 
+            sys.exit(0)
+        
+        self.W = np.array(np.random.random((train_data.shape[1], self.num_factors)))
+        self.H = np.array(np.random.random((train_labels.shape[1], self.num_factors)))
 
         prev_loss = None
         for iteration in range(self.num_iterations):
@@ -28,8 +37,7 @@ class LEMLsf:
         return test_data.dot(self.W).dot(self.H.T)
 
     def fit_H(self, train_data, train_labels):
-        #X = train_data.dot(self.W)
-        X = mul_sparse(train_data, np.asfortranarray(self.W))
+        X = pmultiply(train_data, np.asfortranarray(self.W))
         X2 = X.T.dot(X)
         eye_reg_param = np.eye(X2.shape[0])*self.reg_param
         X2 = X2 + eye_reg_param
@@ -43,20 +51,17 @@ class LEMLsf:
             return A.flatten('F')
 
         def dloss(w, X, Y, H, reg_param):
-            W = self.W
-            A = mul_sparse(X, np.asfortranarray(W))
-            B = mul_sparse(Y, np.asfortranarray(H))
+            A = pmultiply(X, np.asfortranarray(self.W))
+            B = Y.dot(H)
             M = H.T.dot(H)
-            return vec(mul_sparse_row(X.T, np.asfortranarray(A.dot(M)-B))) + reg_param*w
+            return vec(pmultiply(X.T.tocsc(), np.asfortranarray(A.dot(M)-B))) + reg_param*w
 
         self.M = np.dot(self.H.T, self.H)
         def Hs(s, X, reg_param):
             S = s.reshape((X.shape[1],self.H.shape[1]), order='F')
-            A = mul_sparse(X, np.asfortranarray(S))
-            return vec(mul_sparse_row(X.T, np.asfortranarray(A.dot(self.M)))) + reg_param*s
-            #return vec(mul_sparse(X.T.tocsc(), np.asfortranarray(A.dot(self.M)))) + reg_param*s
-            #return vec(mul_sparse(X.T.tocsr(), np.asfortranarray(A.dot(self.M)))) + reg_param*s
-
+            A = pmultiply(X, np.asfortranarray(S))
+            
+            return vec(pmultiply(X.T.tocsc(), np.asfortranarray(A.dot(self.M)))) + reg_param*s
 
         wt = vec(self.W)
         rt = -dloss(wt, train_data, train_labels, self.H, self.reg_param)
@@ -78,4 +83,3 @@ class LEMLsf:
         self.W = wt.reshape((self.W.shape[0], self.W.shape[1]), order='F')
 
         return total_iters
-

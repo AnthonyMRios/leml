@@ -4,13 +4,11 @@ from time import time
 import numpy as np
 from sklearn.externals import joblib
 from sklearn.metrics import precision_score 
-from sklearn.grid_search import GridSearchCV
-from sklearn.multiclass import OneVsRestClassifier
 
 from pyleml import LEML
 
 def main():
-    print 'loading data'
+    print 'Loading data'
     sys.stdout.flush()
     X = joblib.load('./test_data/bibtex-train.pkl')
     labels = joblib.load('./test_data/bibtex-Y-train.pkl')
@@ -20,10 +18,9 @@ def main():
 
     print 'Training LEML'
     sys.stdout.flush()
-    #for l in [1e-3, 1e-2, 1e-1, 1., 10]:
     t0 = time()
     leml = LEML.get_instance('parallel', num_factors=200, num_iterations=25, reg_param=1., verbose=True)
-    leml.fit(X.tocsc(), labels.tocsc())
+    leml.fit(X.tocsc(), labels.tocsc().astype('float'))
     print 'Train time', time() - t0, 'seconds'
     sys.stdout.flush()
     preds = leml.predict(X_test)

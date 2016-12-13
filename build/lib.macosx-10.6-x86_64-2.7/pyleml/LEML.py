@@ -17,11 +17,14 @@ class LEML:
     @staticmethod
     def get_instance(backend='single', **extra_args):
         if backend == 'parallel':
-            from LEML_single_fast import LEMLsf
-            return LEMLsf(**extra_args)
+            from LEML_parallel import LEMLp
+            return LEMLp(**extra_args)
         elif backend == 'single':
             from LEML_single import LEMLs
             return LEMLs(**extra_args)
+        elif backend == 'singlef':
+            from LEML_single_fast import LEMLsf
+            return LEMLsf(**extra_args)
 
         raise ValueError("Unknown backend: %r (known backends: "
-                         "'parallel', 'single')" % backend)
+                         "'parallel', 'single', 'singlef')" % backend)
