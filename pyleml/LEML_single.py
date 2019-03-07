@@ -23,6 +23,9 @@ class LEMLs:
                 print 'Iteration %d done' % (iteration+1)
 
     def predict(self, test_data):
+        return test_data.dot(self.W).dot(self.H.T)>0.5
+    
+    def predict_proba(self, test_data):
         return test_data.dot(self.W).dot(self.H.T)
 
     def fit_H(self, train_data, train_labels):
@@ -108,7 +111,7 @@ def main():
     leml.fit(X.tocsr(), labels.tocsr())
     print 'Train time', time() - t0, 'seconds'
     sys.stdout.flush()
-    preds = leml.predict(X_test)
+    preds = leml.predict_proba(X_test)
     preds_top_k = preds.argsort()[:,::-1]
     preds_top_k = preds_top_k[:,:1]
     new_preds = np.zeros((preds.shape[0], preds.shape[1]))

@@ -51,6 +51,22 @@ class LEML:
             Predictions of the labels
 
        """
+    
+    @abc.abstractmethod
+    def predict_proba(self, test_data):
+       """ Make probabilities using trained LEML mdoel.
+       
+       Parameters
+       ----------
+       test_data : matrix (n_samples, n_features)
+            Matrix representing the data for testing
+
+        Returns
+        -------
+        predictions : matrix (n_samples, n_labels)
+            Probabilities of the labels
+
+       """
 
     @staticmethod
     def get_instance(backend='single', **extra_args):

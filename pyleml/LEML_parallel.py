@@ -25,6 +25,9 @@ class LEMLsf:
                 print 'Iteration %d done' % (iteration+1)
 
     def predict(self, test_data):
+        return test_data.dot(self.W).dot(self.H.T)>0.5
+
+    def predict_proba(self, test_data):
         return test_data.dot(self.W).dot(self.H.T)
 
     def fit_H(self, train_data, train_labels):
